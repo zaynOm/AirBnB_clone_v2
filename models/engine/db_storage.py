@@ -16,8 +16,9 @@ from models.place import Place
 if getenv('HBNB_TYPE_STORAGE') == "db":
     from models.place import place_amenity
 
-classes = {"User": User, "Amenity": Amenity, "Review": Review, \
-       "Place": Place, "City": City, "State": State}
+classes = {"User": User, "Amenity": Amenity, "Review": Review,
+           "Place": Place, "City": City, "State": State}
+
 
 class DBStorage:
     """ Class that handels Data Base Storage for mysql """
@@ -32,14 +33,17 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_ENV = getenv('HBNB_ENV')
         self.__engine = create_engine(
-            'mysql+mysqldb://{}:{}@{}/{}'.format(HBNB_MYSQL_USER, HBNB_MYSQL_PWD, \
-                                                 HBNB_MYSQL_HOST, HBNB_MYSQL_DB), pool_pre_ping=True)
+            'mysql+mysqldb://{}:{}@{}/{}'.format(HBNB_MYSQL_USER,
+                                                 HBNB_MYSQL_PWD,
+                                                 HBNB_MYSQL_HOST,
+                                                 HBNB_MYSQL_DB),
+            pool_pre_ping=True)
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """ retreives a query on the DB session """
-        dct ={}
+        dct = {}
         if cls is None:
             for c in classes.values():
                 objs = self.__session.query(c).all()
@@ -77,7 +81,8 @@ class DBStorage:
     def reload(self):
         """ reloads the database """
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+            bind=self.__engine, expire_on_commit=False)
         self.__session = scoped_session(session_factory)()
 
     def close(self):

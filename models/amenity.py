@@ -4,6 +4,7 @@ from models.base_model import BaseModel, Base
 from models import storage_type
 from sqlalchemy import Column, String
 
+
 class Amenity(BaseModel, Base):
     """ Amenity Class """
     __tablename__ = 'amenities'

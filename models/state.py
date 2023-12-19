@@ -7,19 +7,23 @@ from sqlalchemy.orm import relationship
 from models.city import City
 from models import storage_type
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
     if storage_type == 'db':
         name = Column(String(128), nullable=False)
-        cities = relationship("City", backref="state", cascade="all, delete, delete-orphan")
+        cities = relationship("City",
+                              backref="state",
+                              cascade="all, delete, delete-orphan")
     # this runs if the engine is FileStorage
     else:
         name = ''
 
         @property
         def cities(self):
-            """ Return the list of City instances with state_id equals the current State.id
+            """ Return the list of City instances with
+            state_id equals the current State.id
                 FileStorage between State and City """
             from models import storage
             cities = []
