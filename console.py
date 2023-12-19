@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import uuid
 
 
 class HBNBCommand(cmd.Cmd):
@@ -122,6 +123,7 @@ class HBNBCommand(cmd.Cmd):
         elif param_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+
         new_instance = HBNBCommand.classes[param_list[0]]() 
         self.params_parsing(param_list, new_instance)
         storage.save()
