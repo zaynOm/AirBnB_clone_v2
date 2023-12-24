@@ -2,6 +2,7 @@
 """ Module for testing file storage"""
 import unittest
 from models.base_model import BaseModel
+from models.city import City
 from models import storage
 import os
 
@@ -31,9 +32,9 @@ class test_fileStorage(unittest.TestCase):
     def test_new(self):
         """ New object is correctly added to __objects """
         new = BaseModel()
-        for obj in storage.all().values():
-            temp = obj
-        self.assertTrue(temp is obj)
+        storage.new(new)
+        temp = list(storage.all().values())[0]
+        self.assertTrue(temp is new)
 
     def test_all(self):
         """ __objects is properly returned """
@@ -63,10 +64,9 @@ class test_fileStorage(unittest.TestCase):
     def test_reload(self):
         """ Storage file is successfully loaded to __objects """
         new = BaseModel()
-        storage.save()
+        new.save()
         storage.reload()
-        for obj in storage.all().values():
-            loaded = obj
+        loaded = list(storage.all().values())[0]
         self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
 
     def test_reload_empty(self):
@@ -100,10 +100,31 @@ class test_fileStorage(unittest.TestCase):
         _id = new.to_dict()['id']
         for key in storage.all().keys():
             temp = key
-        self.assertEqual(temp, 'BaseModel' + '.' + _id)
+            self.assertEqual(temp, 'BaseModel' + '.' + _id)
 
     def test_storage_var_created(self):
         """ FileStorage object storage created """
         from models.engine.file_storage import FileStorage
-        print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+    def test_delete_from_objects(self):
+        """ Delete instance from __objects """
+        new = BaseModel()
+        storage.new(new)
+        storage.delete(new)
+        self.assertFalse(new in storage.all().values())
+
+    def test_all_cls(self):
+        """ Get all instances of a class """
+        b1 = BaseModel()
+        b2 = BaseModel()
+        c1 = City()
+        c2 = City()
+        cities = storage.all(City).values()
+        self.assertTrue(c.__class__ is City for c in cities)
+        bases = storage.all(BaseModel).values()
+        self.assertTrue(b.__class__ is BaseModel for b in bases)
+        
+
+
+
