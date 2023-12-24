@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """ """
 from models.base_model import BaseModel
+from models import storage
 import unittest
 import datetime
-from uuid import UUID
 import json
 import os
 
@@ -77,8 +77,8 @@ class test_basemodel(unittest.TestCase):
     def test_kwargs_one(self):
         """ """
         n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+        new = BaseModel(**n)
+        self.assertTrue(n.items() <= new.to_dict().items())
 
     def test_id(self):
         """ """
@@ -97,3 +97,11 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def test_delete(self):
+        """" """
+        new = BaseModel()
+        storage.new(new)
+        self.assertIn(new, storage.all().values())
+        new.delete()
+        self.assertNotIn(new, storage.all().values())
