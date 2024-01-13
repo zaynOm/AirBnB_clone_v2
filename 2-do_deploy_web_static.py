@@ -10,6 +10,9 @@ env.hosts = '100.25.211.211', '100.25.196.119'
 def do_deploy(archive_path):
     "Deploy web_static to servers"
     try:
+        if not os.path.exists(archive_path):
+            return False
+
         r_path = '/data/web_static/releases'
         f_name = os.path.basename(archive_path)
         f_name_no_ext = os.path.splitext(f_name)[0]
