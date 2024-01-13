@@ -1,10 +1,23 @@
 #!/usr/bin/python3
 "do_deploy module"
-from fabric.api import put, run, env
+from datetime import datetime
+from fabric.api import local, put, run, env
 import os
 
 
-env.hosts = '100.25.211.211', '100.25.196.119'
+env.hosts = ['100.25.211.211', '100.25.196.119']
+
+
+def do_pack():
+    "Compress web_static"
+    date = datetime.now().strftime("%Y%m%d%H%M%S")
+    folder = "versions"
+    local(f"mkdir -p {folder}")
+    path = f"{folder}/web_static_{date}.tgz"
+    print(f"Packing web_static to {path}")
+    if local(f"tar -cvzf {path} web_static").failed:
+        return None
+    return path
 
 
 def do_deploy(archive_path):
