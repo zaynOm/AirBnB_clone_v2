@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 "do_deploy module"
-from fabric.api import put, run
+from fabric.api import put, run, env
 import os
 
 
