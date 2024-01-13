@@ -17,9 +17,9 @@ def do_deploy(archive_path):
         f_name = os.path.basename(archive_path)
         f_name_no_ext = os.path.splitext(f_name)[0]
         put(archive_path, '/tmp/')
-        run(f'rm -rf {r_path}/{f_name_no_ext}')
+        # run(f'rm -rf {r_path}/{f_name_no_ext}')
         run(f'mkdir -p {r_path}/{f_name_no_ext}')
-        run(f'tar -xzf /tmp/{f_name} -C {r_path}/{f_name_no_ext}')
+        run(f'tar -xzf /tmp/{f_name} -C {r_path}/{f_name_no_ext}/')
         run(f'rm /tmp/{f_name}')
         run('mv {0}/{1}/web_static/* {0}/{1}/'.format(r_path, f_name_no_ext))
         run('rm -rf {r_path}/{f_name_no_ext}/web_static')
