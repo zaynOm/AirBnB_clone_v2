@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 "Keep it clean"
-from fabric.api import run
+from fabric.api import run, cd
 import os
 
 env.hosts = ['100.25.211.211', '100.25.196.119']
 
 
 def do_clean(number=0):
-    "Delete out of date archives"
+    """Delete out of date archives
+
+    Args:
+        number (int): number of archives to keep
+    """
+
     if number == 0:
         number = 1
 
