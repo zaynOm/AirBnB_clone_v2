@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-"Keep it clean"
-from fabric.api import run, cd
 import os
+from fabric.api import *
 
 env.hosts = ['100.25.211.211', '100.25.196.119']
 
@@ -11,6 +10,9 @@ def do_clean(number=0):
 
     Args:
         number (int): number of archives to keep
+
+    If number is 0 or 1, keep only the most recent version of your archive.
+    if it's 2, keep the two most recent versions of your archive.
     """
 
     if number == 0:
