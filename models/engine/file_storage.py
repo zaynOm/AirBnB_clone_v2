@@ -62,7 +62,12 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
+        "Deletes an object"
         if obj:
             key = obj.to_dict()["__class__"] + "." + obj.id
             if self.__objects.get(key):
                 self.__objects.pop(key)
+
+    def close(self):
+        "Close the engine"
+        self.reload()

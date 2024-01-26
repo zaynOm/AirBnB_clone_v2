@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""
+"Database storage engine"
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -72,3 +72,7 @@ class DbStorage:
         )
         Session = scoped_session(session_factory)
         self.__session = Session()
+
+    def close(self):
+        "Close database connection"
+        self.__session.remove()
