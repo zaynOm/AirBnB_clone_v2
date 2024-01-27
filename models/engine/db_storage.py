@@ -75,4 +75,4 @@ class DbStorage:
 
     def close(self):
         "Close database connection"
-        self.__session.remove()
+        self.__session.close()
