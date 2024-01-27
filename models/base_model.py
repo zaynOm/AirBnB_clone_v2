@@ -33,12 +33,12 @@ class BaseModel:
 
     def __str__(self):
         """Returns a string representation of the instance"""
-        if self.__dict__.get('_sa_instance_state'):
-            self.__dict__.pop('_sa_instance_state')
+        obj_info = self.__dict__.copy()
+        obj_info.pop('_sa_instance_state')
         cls = self.__class__.__name__
         if storage_type == 'db' and (pwd := self.__dict__.get('password')):
             self.__dict__['password'] = md5(pwd.encode()).hexdigest()
-        return f"[{cls}] ({self.id}) {self.__dict__}"
+        return f"[{cls}] ({self.id}) {obj_info}"
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
@@ -57,7 +57,7 @@ class BaseModel:
         dictionary["updated_at"] = self.updated_at.isoformat()
 
         if dictionary.get("_sa_instance_state"):
-            dictionary.pop("_sa_instance_state")
+            del dictionary["_sa_instance_state"]
 
         return dictionary
 
