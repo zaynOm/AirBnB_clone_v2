@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 "Flask web app that lists all the states with their cities"
 from flask import Flask, render_template
-from models import storage, storage_type
+from models import storage
 from models.state import State
 
 app = Flask(__name__)
